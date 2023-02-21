@@ -1,17 +1,17 @@
-import { useContext } from "react";
-import { CREATE, UPDATE } from "../../context/actions";
-import { Context } from "../../context/Provider";
-import { formatDateTime } from "../../utils";
+import { useContext } from 'react';
+import { CREATE, UPDATE } from '../../context/actions';
+import { Context } from '../../context/Provider';
+import { formatDateTime } from '../../utils';
 
 function Form({ data }) {
   const [state, dispatch] = useContext(Context);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const description = e.target.elements["description"].value;
-    const amount = e.target.elements["amount"].value;
-    const currency = e.target.elements["currency"].value;
-    const dateTime = e.target.elements["dateTime"].value;
+    const description = e.target.elements['description'].value;
+    const amount = e.target.elements['amount'].value;
+    const currency = e.target.elements['currency'].value;
+    const dateTime = e.target.elements['dateTime'].value;
     console.log(dateTime);
 
     dispatch({
@@ -21,7 +21,7 @@ function Form({ data }) {
         currency,
         description,
         id: data?.description ? data.id : state.data.length,
-        timestamp: new Date(dateTime).getTime(),
+        timestamp: new Date(dateTime),
       },
     });
     e.target.reset();
@@ -44,6 +44,7 @@ function Form({ data }) {
         placeholder="Amount of Money"
         name="amount"
         step={0.01}
+        min={0}
         required
         defaultValue={data?.amount}
       />
@@ -55,7 +56,7 @@ function Form({ data }) {
       >
         <option value="$">$</option>
         <option value="€">€</option>
-        <option value="id">ID</option>
+        <option value="IQD">IQD</option>
       </select>
       <input
         type="datetime-local"
@@ -64,7 +65,6 @@ function Form({ data }) {
         required
         defaultValue={data?.timestamp && formatDateTime(data.timestamp)}
       />
-
       {data?.description && <input type="submit" value="Update" />}
       {!data?.description && <input type="submit" value="Add" />}
     </form>
